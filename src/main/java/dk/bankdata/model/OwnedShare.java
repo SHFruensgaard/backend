@@ -1,5 +1,6 @@
 package dk.bankdata.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.CascadeType;
@@ -62,8 +63,11 @@ public class OwnedShare {
     this.buyPrice = buyPrice;
   }
 
-  public Date getBuyDate() {
-    return buyDate;
+  public String getBuyDate() {
+    String pattern = "dd-MM-yyyy";
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    String formattedDate = simpleDateFormat.format(buyDate);
+    return formattedDate;
   }
 
   public void setBuyDate(Date buyDate) {

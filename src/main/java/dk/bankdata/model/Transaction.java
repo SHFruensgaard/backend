@@ -1,5 +1,6 @@
 package dk.bankdata.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.*;
@@ -71,8 +72,11 @@ public class Transaction {
     return this;
   }
 
-  public Date getDate() {
-    return date;
+  public String getDate() {
+    String pattern = "dd-MM-yyyy";
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    String formattedDate = simpleDateFormat.format(date);
+    return formattedDate;
   }
 
   public Transaction setDate(Date date) {
