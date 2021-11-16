@@ -12,10 +12,9 @@ public class UpdateAccountValueResource {
 
   @Inject AccountService accountService;
 
-  @Scheduled(every = "1s")
-  @Transactional
-  void subtractFromInvestmentAccount() {
-    Account accountAktiesparekonto = accountService.getAccountAktiesparekonto();
-    accountService.subtractFromBalance(accountAktiesparekonto, 1);
-  }
+//  @Transactional
+//  void addToAccount(int diff) {
+//    Account accountAktiesparekonto = accountService.getAccountAktiesparekonto();
+//    accountService.subtractFromBalance();
+//  }
 }
