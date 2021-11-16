@@ -60,11 +60,19 @@ public class InvestmentService {
     Account accountAktiesparekonto = accountService.getAccountAktiesparekonto();
     Account accountBoersen = accountService.getAccountBoersen();
 
+
     OwnedShare ownedShare = new OwnedShare();
     ownedShare.setShare(shareEntity);
     ownedShare.setBuyPrice(shareEntity.getCurrentPrice());
     ownedShare.setBuyDate(new Date());
     entityManager.persist(ownedShare);
+
+    accountAktiesparekonto.setBalance(
+            accountAktiesparekonto.getBalance() - ownedShare.getShare().getCurrentPrice());
+    entityManager.persist(accountAktiesparekonto);
+    accountBoersen.setBalance(
+            accountBoersen.getBalance() + ownedShare.getShare().getCurrentPrice());
+    entityManager.persist(accountAktiesparekonto);
 
     Transaction transaction = new Transaction();
     transaction.setAmount(shareEntity.getCurrentPrice() * -1);
@@ -91,7 +99,16 @@ public class InvestmentService {
     entityManager.persist(accountAktiesparekonto);
 
     Transaction transaction = new Transaction();
-    transaction.setAmount(ownedShareEntity.getShare().getCurrentPrice());
+    double sellPrice = ownedShareEntity.getShare().getCurrentPrice();
+    double buyPrice = ownedShareEntity.getBuyPrice();
+    double profit = sellPrice;
+    if (sellPrice > buyPrice) {
+      if (sellPrice > 1.5 * buyPrice) {
+        profit -= (sellPrice - buyPrice * 1.5) * 0.41;
+      }
+      profit -= (profit - buyPrice) * 0.21;
+    }
+    transaction.setAmount(profit);
     transaction.setDate(new Date());
     transaction.setDescription("Salg af aktie " + ownedShareEntity.getShare().getName());
     transaction.setAccountFrom(accountAktiesparekonto);
