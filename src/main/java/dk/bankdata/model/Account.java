@@ -5,14 +5,14 @@ import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 @NamedQueries({
-  @NamedQuery(name = "Account.getAccounts", query = "SELECT A FROM Account A ORDER BY A.type DESC"),
+  @NamedQuery(name = "Account.getAccounts", query = "SELECT DISTINCT A FROM Account A ORDER BY A.type DESC"),
   @NamedQuery(
       name = "Account.getFirstInvestmentAccount",
       query = "SELECT A FROM Account A WHERE A.type = :type"),
   @NamedQuery(
       name = "Account.getAccountByName",
-      query = "SELECT A FROM Account A WHERE A.name = :name"),
-  @NamedQuery(name = "Account.getAccountById", query = "SELECT A FROM Account A WHERE A.id = :id")
+      query = "SELECT DISTINCT A FROM Account A WHERE A.name = :name"),
+  @NamedQuery(name = "Account.getAccountById", query = "SELECT DISTINCT A FROM Account A WHERE A.id = :id")
 })
 @Entity
 public class Account {
